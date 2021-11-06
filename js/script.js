@@ -1,428 +1,284 @@
 ﻿/* N1
- Сделайте функцию, которая отнимает от первого числа второе и делит на 
-третье. Числа передаются параметром. */
+Дана строка 'aaa@bbb@ccc'. Замените все @ на ! с помощью глобального 
+поиска и замены. */
 
-let algebra = function (a, b, c) {
+let text = 'aaa@bbb@ccc';
 
-    return (a - b) / c;   
+let textNew = text.replace(/@/g, '!');
+
+console.log(textNew);
+
+// Способ через цикл:
+
+let text2 = [];
+
+for (let i = 0; i < text.length; i++) {
+
+    let x = text[i];
+
+    if (x == '@') x = '!';
+
+    text2.push(x);
 }
 
-console.log(algebra(11, 7, 1));
+text2 = text2.join('');
 
+console.log(text2);
 
+// Через замкнутую функцию
 
-/* №2 
-Сделайте функцию, которая возвращает куб числа и его квадрат. Число 
-передается параметром. */
+function replaceText(word, q = 0, text3 = ' ') {
 
-function algebra2(a) {
+    let x = word[q];
 
-    let square = Math.sqrt(a);
-    let cube = Math.pow(a,3);
+    if (x == '@') x = '!';
 
-    return 'Квадрат числа равен ' + square + ', куб числа = ' + cube;
+    text3 += x;
+
+    q++;
+
+    if (q > word.length-1) return text3;
+
+    replaceText(word, q, text3);
 }
 
-console.log(algebra2(9));
+console.log(replaceText(text));
+
+//Дополнительный способ:
+
+console.log(text.indexOf('@'));      // 3
+console.log(text.lastIndexOf('@'));  // 7
+
+let text4 = text.split('');
+text4[3] = '!';
+text4[7] = '!';
+text4 = text4.join('');
+console.log(text4);
 
 
+/* №2
+В переменной date лежит дата в формате 2025-12-31. Преобразуйте эту 
+дату в формат 31/12/2025 */
 
-/* №3 
-Напишите функции min и max, которые возвращают меньшее и большее из
-чисел a и b. */
+let date = '2025-12-31';
 
-function minMax(a,b) {
+date = date.replace(/(2025)-(12)-(31)/, '$3/$2/$1');
 
-    let min = Math.min(a,b);
-    let max = Math.max(a,b);
+console.log(date);
 
-    return 'Минимальное число = ' + min + ', максимальное число =  ' + max;
+
+/* №3
+Дана строка «Я учу javascript!». Вырежете из нее слово «учу» и слово 
+«javascript» тремя разными способами (через substr, substring, slice). */
+
+let word = 'Я учу javascript!';
+
+let word1 = word.substr(2,3);
+let word2 = word.substring(2,5);
+let slice = word.slice(2, 5);
+
+console.log(word1);
+console.log(word2);
+console.log(slice);
+
+/*
+let word0 = new String ('Я учу javascript!');
+delete word0[16];
+console.log(word0[16]);
+*/
+
+let word3 = word.substr(6, (word.length - 1) - 6);
+let word4 = word.substring(6, word.length-1);
+let word5 = word.slice(6, word.length-1);
+
+console.log(word3);
+console.log(word4);
+console.log(word5);
+
+
+/* №4
+Дан массив с элементами 4, 2, 5, 19, 13, 0, 10. Найдите квадратный корень 
+из суммы кубов его элементов. Для решения воспользуйтесь циклом for. */
+
+let array = [4, 2, 5, 19, 13, 0, 10];
+
+let cub = 0;
+
+for (let i = 0; i < array.length; i++) {
+
+    let j = Math.pow(array[i], 3);
+    // или  let j = array[i] ** 3;
+
+    cub += j;
 }
 
-console.log(minMax(27,44));
+cub = Math.sqrt(cub);
+
+console.log(cub);
 
 
-/* №4 
-Напишите две функции: первая ф-ция должна возвращать массив с 
-числовыми значениями, диапазон которых должен вводиться пользователем 
-с клавиатуры; вторая – выводить полученный массив. */
+/* №5 
+Даны переменные a и b. Отнимите от a переменную b и результат 
+присвойте переменной c. Сделайте так, чтобы в любом случае в переменную 
+c записалось положительное значение. Проверьте работу скрипта при a и b, 
+равных соответственно 3 и 5, 6 и 1. */
+
+function diff(a, b) {
+
+    let c = Math.abs(a - b);
+
+    return c;
+}
+
+console.log(diff(3, 5));
+console.log(diff(6, 1));
+
+// Ещё способ
+
+function diff1(a, b) {
+
+    let c = a - b;
+
+    if (c < 0) c = -c;
+
+    return c;
+}
+
+console.log(diff1(0, 5));
 
 
-function inputNumber() {
-    
-    let inp = [];   
+/* №6
+Выведите на экран текущую дату-время в формате 12:59:59 31.12.2014. 
+Для решения этой задачи напишите функцию, которая будет добавлять 0 
+перед днями и месяцами, которые состоят из одной цифры (из 1.9.2014 
+сделает 01.09.2014). */
 
-    for (;;) {
-        
-        let value = prompt('Введите несколько чисел');
-       
-        if (value == '' || value == null) break;
+let today = new Date().toLocaleString();
 
-        if (isNaN(value) || value == false ) {
-            alert('Нужно ввести число');
-            continue;
-        }
+today = today.replace(/(.*), (.*)/, '$2 $1');
 
-        inp.push(value);       
+console.log(today);
+
+
+let dateOld = '1.9.2014'; 
+
+function dat(str) {
+
+    let dateNew = new Date();
+
+    let [,day,month,year] = str.match(/([0-9]+).([0-9]+).([0-9]+)/);
+
+    dateNew.setDate(day);
+
+    dateNew.setMonth(month);
+
+    dateNew.setFullYear(year);
+
+    let opt = {
+
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'  
     }
 
-    return inp;
-} 
+    dateNew = dateNew.toLocaleString('ru', opt);
 
-let input = inputNumber();
-
-let outputNumber = function () {
-    console.log(input);
+    return dateNew;
 }
 
-outputNumber();
-
-
-/* №5
-Сделайте функцию isEven() (even - это четный), которая параметром 
-принимает целое число и проверяет: четное оно или нет. Если четное - пусть 
-функция возвращает true, если нечетное — false. */
-
-
-function isEven(digit) {
-
-    if (digit % 2 == 0) return true;
-    else return false;
-}
-
-console.log(isEven(6));
-
-
-/* №6 
-Напишите ф-цию, в которую передается массив с целыми числами. 
-Верните новый массив, где останутся лежать только четные из этих чисел. 
-Для этого используйте вспомогательную функцию isEven из предыдущей 
-задачи. */
-
-
-let array = [4, 8, 9];
-
-function evenNumb(arr) {
-
-    let massif = [];
-
-    for (let i = 0; i < arr.length; i++) {
-        
-        let x = isEven(arr[i]);
-
-        if (x) massif.push(arr[i]);
-        }
-        
-    return massif;
-}
-
-let x = evenNumb(array);
-
-console.log(x);
+document.write(dat(dateOld));
+console.log(dat(dateOld));
 
 
 /* №7
-Напишите ф-цию, которая рисует следующую пирамидку (исп. вложенные 
-циклы):
-1 
-22 
-333 
-4444 
-55555 
-666666 
-7777777 
-88888888
-999999999
-Кол-во рядов должно вводиться параметром. Если пользователь ввел доп. 
-параметр, непредусмотренный ф-цией по умолчанию - один любой символ, 
-кроме пробела, то пирамида должна быть нарисована этим символом, 
-например: 
-* 
-** 
-*** 
-**** 
-***** 
-****** 
-******* 
-******** 
-********* 
-*/
+Дана строка 'aa aba abba abbba abca abea'. Напишите регулярку, которая 
+найдет строки aba, abba, abbba по шаблону: буква 'a', буква 'b' любое 
+количество раз, буква 'a'. */
 
-function pyramid(x,v = " ") {
+let str = 'aa aba abba abbba abca abea'.match(/a[b]+a/g);
 
-    if (x != isNaN(x) && v == " ") {
+console.log(str);
 
-        for (let i = 1; i <= x; i++) {    
 
-            for (let j = 1; j <= i; j++) {
+/* №8
+Напишите ф-цию строгой проверки ввода номер телефона в 
+международном формате (<код страны> <код города или сети> <номер 
+телефона>). Функция должна возвращать true или false. Используйте 
+регулярные выражения. */
 
-                document.write(i); 
-            }
+let phone = '+375 29 1234571'; 
 
-            document.write('<br>'); 
-        }
-    } 
+function validat(val) {
+
+    let valid = /^[+]375\s?(29|44|33|25)\s?[0-9]{7}$/.test(val);
+
+    if (valid == false) {
+
+        result = false;
+        return result;
+    }
+
+    result = true;
+    return result;
+}
     
-    if (x = isNaN(x) || v != " ") {
+console.log(validat(phone));
 
-        for (let i = 1; i <= 9; i++) {    
 
-            for (let j = 1; j <= i; j++) {
+/* №9
+Напишите ф-цию строгой проверки адреса эл. почты с учетом следующих 
+условия:
+- весь адрес не должен содержать русские буквы и спецсимволы, кроме 
+одной «собачки», знака подчеркивания, дефиса и точки;
+- имя эл. почты (до знака @) должно быть длиной более 2 символов, причем 
+имя может содержать только буквы, цифры, но не быть первыми и 
+единственными в имени;
+- после последней точки и после @, домен верхнего уровня (ru, by, com и т.п.)
+не может быть длиной менее 2 и более 11 символов.
 
-                document.write('*'); 
-            }
+Функция должна возвращать true или false. Используйте регулярные 
+выражения. */
 
-            document.write('<br>'); 
-        }
-    }
+function validEmail(a) {
+
+    let regex = /^[a-z]+[0-9_-a-z]+@[a-z0-9_-]{2,11}.[a-z]{2,11}$/ig;
+
+    let valid = regex.test(a);
+
+    let result = false
+
+    if (valid == true) result = true;
+
+    return result;
 }
 
-pyramid(8);
-
-
-/* №8 
-Напишите ф-цию, которая рисует равнобедренный треугольник из 
-звездочек:
-    * 
-   *** 
-  ***** 
- ******* 
-********* 
-Кол-во рядов должно вводиться с клавиатуры. Доп., напишите такую же ф-цию, но которая выведет перевернутый треугольник. */
-
-function fir(inp) {
-
-    for (let i = 0; i < inp; i++) {
-        
-        let res = "";
-
-        for (let j = inp; i < j; j--) {
-
-            res += " ";
-        }
-        for (let j = 0; j <= i; j++) {
-
-            res += "* ";
-        }
-
-        console.log(res + '\n');
-    }
-
-}
-
-fir(5);
-
-console.log(" ");
-
-// Перевернутый вариант
-
-function triangle(inp) {
-
-    for (let i = 0; i < inp; i++) {
-        
-        let res = "";
-
-        for (let j = 0; j < i; j++) {
-
-            res += " ";
-        }
-        for (let j = inp; j > i; j--) {
-
-            res += " *";
-        }
-
-        console.log(res + '\n');
-    }
-
-}
-
-triangle(5);
-
-
-/* №9 
-Напишите ф-цию, которая возвращает массив заполненный числами 
-Фибоначи от 0 до 1000. */
-
-let n = 0;
-let z = 1;
-
-function fibon() {
-
-    let y = n + z;
-
-    n = z;
-    z = y;
-    
-    console.log(y);
-
-    if (y < 1000) fibon();
-}
-
-fibon()
-
-// Решение через цикл
-
-let m = 0;  
-let y = 1;  
-z = 0; 
-
-while(z < 1000) {
-
-    z = m + y;
-
-    y = m;    
-    m = z;    
-        
-    console.log(z);
-}
+console.log(validEmail('gg2_@vbf-f_d.com'));
 
 
 /* №10
-10. Дано число. Сложите его цифры. Если сумма получилась более 9-ти, 
-опять сложите его цифры. И так, пока сумма не станет однозначным числом 
-(9 и менее). Исп. Рекурсию. */
+Напишите ф-цию, которая из полного адреса с параметрами и без, 
+например: https://tech.onliner.by/2018/04/26/smart-do-200/? 
+utm_source=main_tile&utm_medium=smartdo200#zag3 , получит адрес 
+доменного имени (https://tech.onliner.by), остальную часть адреса без 
+параметров (/2018/04/26/smart-do-200/), параметры 
+(utm_source=main_tile&utm_medium=smartdo200) и хеш (#zag3). В адресе 
+может и не быть каких-либо составляющих. Ф-ция должна возвращать 
+массив. */
 
-let number = 79;
+let url = 'http://tech.onliner.by/2018/04/26/smart-do-200/?utm_source=main_tile&utm_medium=smartdo200#zag3';
 
-let sum = '';
+function validUrl(u) {
 
-let summNumb = function(i) { 
+    regex = '^https?:\/\/[w{3}\.]?(.*by|ru|com)/(.*)[\?](.*)#(.*)';
 
-    if (i > 9) {
+    let array = u.match(regex);
 
-    let a = String(i);   
-        
-    sum = +a[0] + +a[1];
+    array.shift(0);
 
-    } else {
-
-        console.log('Нужно ввести чиcло более 9');
-    }
-
-    if (sum > 9) { 
-        
-    sum += sum;
-
-    console.log('Полученные суммы до результата меньше 9 равна ' + sum);
-
-    summNumb(sum);
-
-    }
-
-    if (sum <= 9 && sum != false) console.log('Сумма меньше 9 после рекурсии равна ' + sum);    
-           
-} 
-
-summNumb(number);
-
-
-/* № 11
-Дан массив с числами (передается параметром). Выведите 
-последовательно его элементы, используя рекурсию и не используя цикл. */
-
-array = [5, 6, 7, 8, 9];
-
-i = 0;
-
-function output(a) {
-
-    if (i < a.length) {
-        
-        console.log(a[i]);
-
-        i++;
-
-        output(a);    
-    }
+    return array;
 }
 
-output(array);
-
-
-/* №12
-Напишите ф-цию, запрашивающую имя, фамилия, отчество и номер 
-группы студента и выводящую введённые данные в следующем виде:
-***************************** 
-* Домашняя работа: «Функции» * 
-* Выполнил: студент гр. W4017 * 
-* Иванов Иван Иванович * 
-***************************** 
-Размер рамки должен определятся автоматически по самой длинной строке. 
-Рамку вывести в консоль. */
-
-function homeWork() {
-
-let name = prompt('Ваше ФИО');
-let num = prompt('Ваша группа');
-
-num = 'Выполнил: ' + num;
-
-star = '';
-star2 = '';
-
-
-if (name.length > num.length) {
-
-    max = name.length;
-    textMax = name;
-    min = num.length;
-    textMin = num;
-} else {
-
-    max = num.length;
-    textMax = num;
-    min = name.length;
-    textMin = name;
-}  
-
-let diff = max - min;
-
-if (max > 26) {
- 
-    textMax += ' *';
-    textMin += "*".padStart(diff + 2, " ");
-    star = new Array(max - 25).join('*');
-    star2 = " ".repeat(max - 26);
-} else {
-
-    textMax += "*".padStart(28 - max, " ");
-    textMin += "*".padStart(28 - min, " ");
-}
-
-switch (true) {
-
-    case (max == name.length):
-
-    console.log(
-        `
-        ******************************${star}
-        * Домашняя работа: «Функции» ${star2}* 
-        * ${textMin}                     
-        * ${textMax}                    
-        ******************************${star}
-        `
-    );
-    break;
-
-    case(max == num.length):
-
-    console.log(
-        `
-        ******************************${star}
-        * Домашняя работа: «Функции» ${star2}* 
-        * ${textMax}                   
-        * ${textMin}                     
-        ******************************${star}
-        `
-    );
-}
-
-}
-
-homeWork();
-
-
-
+console.log(validUrl(url));
 
 
 
